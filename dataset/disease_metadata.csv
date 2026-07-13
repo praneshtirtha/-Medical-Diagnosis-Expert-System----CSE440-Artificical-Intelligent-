@@ -1,0 +1,42 @@
+Disease,unique_rows,has_precautions
+(vertigo) Paroymsal Positional Vertigo,7,True
+AIDS,5,True
+Acne,5,True
+Alcoholic hepatitis,8,True
+Allergy,5,True
+Arthritis,6,True
+Bronchial Asthma,7,True
+Cervical spondylosis,6,True
+Chicken pox,10,True
+Chronic cholestasis,8,True
+Common Cold,9,True
+Dengue,10,True
+Diabetes,9,True
+Dimorphic hemmorhoids(piles),6,True
+Drug Reaction,6,True
+Fungal infection,5,True
+GERD,7,True
+Gastroenteritis,5,True
+Heart attack,5,True
+Hepatitis B,9,True
+Hepatitis C,7,True
+Hepatitis D,10,True
+Hepatitis E,9,True
+Hypertension,6,True
+Hyperthyroidism,9,True
+Hypoglycemia,9,True
+Hypothyroidism,8,True
+Impetigo,6,True
+Jaundice,9,True
+Malaria,8,True
+Migraine,10,True
+Osteoarthristis,7,True
+Paralysis (brain hemorrhage),5,True
+Peptic ulcer diseae,7,True
+Pneumonia,9,True
+Psoriasis,7,True
+Tuberculosis,9,True
+Typhoid,9,True
+Urinary tract infection,5,True
+Varicose veins,8,True
+hepatitis A,9,True

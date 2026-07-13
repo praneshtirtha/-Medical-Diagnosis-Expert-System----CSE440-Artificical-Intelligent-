@@ -1,0 +1,39 @@
+Medical Diagnosis Dataset Preprocessing Summary
+
+Input files:
+- DiseaseAndSymptoms.csv
+- Disease precaution.csv
+
+Main preprocessing done:
+1. Cleaned disease names and symptom names.
+2. Converted symptoms from text columns Symptom_1...Symptom_17 into binary 0/1 feature columns.
+3. Created a full encoded dataset.
+4. Removed duplicate rows to create a cleaner unique dataset.
+5. Created 80/20 stratified train-test split from the unique encoded dataset.
+6. Cleaned the precautions file and standardized column names.
+7. Created symptom and disease metadata files for the web app.
+
+Important counts:
+- Original DiseaseAndSymptoms rows: 4920
+- Original columns: 18
+- Unique symptoms/features: 131
+- Diseases/classes: 41
+- Full encoded rows: 4920
+- Duplicate encoded rows removed: 4616
+- Unique encoded rows: 304
+- Train rows: 243
+- Test rows: 61
+- Precaution diseases: 41
+- Diseases with matching precautions: 41/41
+
+Recommended for model training:
+- Use train_processed.csv for training.
+- Use test_processed.csv for testing.
+- Use disease_precautions_cleaned.csv only after prediction to show precautions.
+- Use symptom_metadata.csv to show readable symptom names in the web app.
+
+Target column:
+- Disease
+
+Feature columns:
+- All columns except Disease in train_processed.csv/test_processed.csv

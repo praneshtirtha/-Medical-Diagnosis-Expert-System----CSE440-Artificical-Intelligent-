@@ -1,58 +1,34 @@
 # Medical Diagnosis Expert System
 
-This project is a **Medical Diagnosis Expert System** developed for the CSE440 Artificial Intelligence course. The system assists healthcare professionals by suggesting possible diseases based on patient symptoms and medical history.
-
-## Project Overview
-
-The system uses **rule-based reasoning**, **knowledge representation**, and **logic programming concepts** to analyze symptoms and infer possible diagnoses. It works as a decision-support tool and does not replace professional medical advice.
+A web-based AI project for **CSE440 Artificial Intelligence** that predicts possible diseases from selected symptoms using a machine learning model.
 
 ## Features
 
-* Patient information input
 * Symptom selection
-* Rule-based disease prediction
-* Confidence score calculation
-* Risk level classification
-* Explanation of diagnosis result
-* General medical recommendation
-* Emergency warning for serious symptoms
+* Disease prediction
+* Confidence score
+* Basic precautions
+* Simple web interface
 
-## AI Techniques Used
+## Dataset
 
-* Expert System
-* Knowledge Base
-* Inference Engine
-* IF-THEN Rules
-* Forward Chaining
-* Rule-Based Reasoning
+The project uses:
 
-## Example Rule
+* `DiseaseAndSymptoms.csv` for training the model
+* `Disease precaution.csv` for showing precautions
 
-```text
-IF fever AND cough AND sore throat AND fatigue
-THEN possible disease = Flu
-```
-
-## Technologies Used
+## Technologies
 
 * Python
 * Streamlit
-* Rule-Based Logic
+* Pandas
+* Scikit-learn
+* Joblib
 
-## How It Works
+## Workflow
 
-1. User enters patient information.
-2. User selects symptoms.
-3. The system compares symptoms with stored disease rules.
-4. Possible diseases are shown with confidence scores.
-5. The system provides explanation and recommendation.
+Symptoms → AI Model → Predicted Disease → Confidence Score → Precautions
 
 ## Disclaimer
 
-This system is only for educational purposes. It provides possible diagnosis suggestions based on symptoms. Final diagnosis must be made by a qualified healthcare professional.
-
-## Course Information
-
-**Course:** CSE440 - Artificial Intelligence
-**Project Type:** Expert System
-**Topic:** Medical Diagnosis Expert System
+This project is for educational purposes only and is not a replacement for professional medical advice.
