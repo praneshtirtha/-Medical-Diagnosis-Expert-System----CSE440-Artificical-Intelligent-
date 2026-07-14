@@ -1,4 +1,3 @@
-# train_naive_bayes.py
 
 import os
 import pandas as pd
@@ -8,9 +7,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 
-# ===============================
+
 # 1. File Paths
-# ===============================
+
 
 TRAIN_DATA_PATH = "dataset/train_processed.csv"
 TEST_DATA_PATH = "dataset/test_processed.csv"
@@ -20,17 +19,14 @@ MODEL_PATH = os.path.join(MODEL_FOLDER, "naive_bayes_model.pkl")
 SYMPTOM_COLUMNS_PATH = os.path.join(MODEL_FOLDER, "symptom_columns.pkl")
 
 
-# ===============================
 # 2. Create model folder if missing
-# ===============================
+
 
 if not os.path.exists(MODEL_FOLDER):
     os.makedirs(MODEL_FOLDER)
 
-
-# ===============================
 # 3. Load Dataset
-# ===============================
+
 
 print("Loading datasets...")
 
@@ -41,9 +37,7 @@ print("Training data shape:", train_data.shape)
 print("Testing data shape:", test_data.shape)
 
 
-# ===============================
 # 4. Separate Features and Target
-# ===============================
 
 TARGET_COLUMN = "Disease"
 
@@ -56,9 +50,9 @@ y_test = test_data[TARGET_COLUMN]
 symptom_columns = list(X_train.columns)
 
 
-# ===============================
+
 # 5. Train Naive Bayes Model
-# ===============================
+
 
 print("\nTraining Naive Bayes model...")
 
@@ -68,9 +62,9 @@ nb_model.fit(X_train, y_train)
 print("Model training completed.")
 
 
-# ===============================
+
 # 6. Test Model
-# ===============================
+
 
 print("\nTesting model...")
 
