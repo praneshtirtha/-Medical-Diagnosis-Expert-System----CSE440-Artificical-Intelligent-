@@ -55,7 +55,7 @@ The following models were trained and evaluated:
 | Naive Bayes | 96.72% | 99.97% |
 | Random Forest | 100% | 100% |
 | SVM | 100% | 17.07% |
-| XGBoost | 98% | 95% |
+| XGBoost | 100% | 94.03% |
 
 Based on the current results, **Random Forest** and **SVM** achieved the highest accuracy on the test dataset.
 
