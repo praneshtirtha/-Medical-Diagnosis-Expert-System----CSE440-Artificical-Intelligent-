@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medical Diagnosis Expert System — Prediction Report</title>
+<style>
+  :root{
+    --ink:#1b2430;
+    --ink-soft:#4a5568;
+    --line:#c9d2dc;
+    --line-soft:#e4e9ee;
+    --accent:#1f5f5b;
+    --accent-soft:#e7f1f0;
+    --amber:#a66a1e;
+    --amber-soft:#fbf1e2;
+    --paper:#ffffff;
+    --mono: 'Courier New', Courier, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#dfe4e8;
+    font-family: Georgia, 'Times New Roman', serif;
+    color:var(--ink);
+  }
+  .toolbar{
+    max-width:850px;
+    margin:18px auto 0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 4px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .toolbar .hint{ font-size:12.5px; color:#4a5568; }
+  .toolbar button{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:9px 18px;
+    font-size:13.5px;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing:.03em;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .toolbar button:hover{ background:#174744; }
+
+  .sheet{
+    width:850px;
+    min-height:1100px;
+    margin:14px auto 40px auto;
+    background:var(--paper);
+    padding:56px 60px 50px 60px;
+    position:relative;
+    box-shadow:0 2px 18px rgba(0,0,0,.18);
+  }
+
+  /* ---------- Header ---------- */
+  .head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    border-bottom:3px solid var(--accent);
+    padding-bottom:16px;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .mark{
+    width:46px;height:46px;
+    border:2px solid var(--accent);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:700;
+    color:var(--accent);
+    font-size:17px;
+    flex:none;
+  }
+  .brand h1{
+    margin:0;
+    font-size:21px;
+    letter-spacing:.01em;
+    color:var(--ink);
+  }
+  .brand .tag{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-top:3px;
+  }
+  .head-right{
+    text-align:right;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+  .head-right .doc-id{ font-family:var(--mono); color:var(--ink); font-size:12px; }
+
+  /* ---------- Not-verified banner ---------- */
+  .banner{
+    margin-top:14px;
+    background:var(--amber-soft);
+    border:1px solid #e3c68a;
+    border-left:4px solid var(--amber);
+    padding:10px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11.5px;
+    line-height:1.55;
+    color:#6b4a12;
+  }
+  .banner b{ color:#5a3c0f; }
+
+  /* ---------- Patient / meta ---------- */
+  .meta{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:0 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:12.5px;
+  }
+  .field{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    padding:6px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .field .lbl{
+    color:var(--ink-soft);
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    white-space:nowrap;
+  }
+  .field .val{
+    flex:1;
+    min-height:16px;
+    outline:none;
+    border-bottom:1px dotted transparent;
+  }
+  .field .val:empty:before{ content:attr(data-ph); color:#a9b4bf; }
+  .field .val[contenteditable]:focus{ border-bottom:1px dotted var(--accent); }
+
+  /* ---------- Section titles ---------- */
+  .section-title{
+    margin:30px 0 12px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-title:after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ---------- Symptoms ---------- */
+  .symptoms{
+    min-height:22px;
+    font-size:14px;
+    line-height:1.7;
+    outline:none;
+    padding:2px 0;
+  }
+  .symptoms:empty:before{ content:attr(data-ph); color:#a9b4bf; }
+
+  /* ---------- Predictions ---------- */
+  .predictions{
+    display:flex;
+    gap:22px;
+  }
+  .pred-card{
+    flex:1;
+    border:1px solid var(--line);
+    border-top:3px solid var(--accent);
+    padding:16px 18px 18px 18px;
+    position:relative;
+  }
+  .pred-card.secondary{ border-top-color:#7a8a95; }
+  .pred-rank{
+    position:absolute;
+    top:-13px; left:16px;
+    background:var(--accent);
+    color:#fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.08em;
+    padding:3px 9px;
+    border-radius:2px;
+  }
+  .pred-card.secondary .pred-rank{ background:#7a8a95; }
+  .pred-name{
+    font-size:17px;
+    font-weight:700;
+    margin:8px 0 10px 0;
+    outline:none;
+    min-height:20px;
+  }
+  .pred-name:empty:before{ content:attr(data-ph); color:#a9b4bf; font-weight:400;}
+  .confidence-row{
+    display:flex; align-items:center; gap:10px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom:12px;
+  }
+  .confidence-row .lbl{ font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-soft); white-space:nowrap;}
+  .bar-track{
+    flex:1; height:8px; background:var(--line-soft); border-radius:5px; overflow:hidden;
+  }
+  .bar-fill{ height:100%; background:var(--accent); }
+  .pred-card.secondary .bar-fill{ background:#7a8a95; }
+  .confidence-val{
+    font-family:var(--mono); font-size:12.5px; outline:none; min-width:40px; text-align:right;
+  }
+  .precautions-lbl{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .precautions{
+    font-size:12.8px;
+    line-height:1.85;
+    outline:none;
+    min-height:60px;
+  }
+  .precautions:empty:before{ content:attr(data-ph); color:#a9b4bf; }
+
+  /* ---------- Notes ---------- */
+  .notes{
+    min-height:50px;
+    font-size:13px;
+    line-height:1.7;
+    outline:none;
+    border:1px solid var(--line-soft);
+    padding:10px 12px;
+    background:#fbfcfc;
+  }
+  .notes:empty:before{ content:attr(data-ph); color:#a9b4bf; }
+
+  /* ---------- Disclaimer block ---------- */
+  .disclaimer{
+    margin-top:28px;
+    border:1px dashed #c2401f;
+    background:#fdf2ef;
+    padding:14px 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11px;
+    line-height:1.65;
+    color:#7d2a12;
+  }
+  .disclaimer .title{
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    font-size:10.5px;
+    margin-bottom:5px;
+    color:#a3311a;
+  }
+
+  /* ---------- Footer / signature ---------- */
+  .footer{
+    margin-top:34px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .sig{
+    text-align:center;
+  }
+  .sig-line{
+    width:190px;
+    border-bottom:1px solid var(--ink);
+    height:34px;
+  }
+  .sig .cap{ margin-top:6px; font-size:10.5px; color:var(--ink-soft); }
+  .foot-left{ font-size:10.5px; line-height:1.6; }
+
+  .watermark{
+    position:absolute;
+    top:46%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(-28deg);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:64px;
+    font-weight:800;
+    letter-spacing:.05em;
+    color:rgba(31,95,91,0.06);
+    pointer-events:none;
+    white-space:nowrap;
+    user-select:none;
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    body{ background:#fff; }
+    .toolbar{ display:none; }
+    .sheet{
+      box-shadow:none;
+      margin:0 auto;
+      width:auto;
+      padding:30px 42px 34px 42px;
+    }
+    .field .val:empty:before,
+    .symptoms:empty:before,
+    .pred-name:empty:before,
+    .precautions:empty:before,
+    .notes:empty:before{ content:""; }
+    @page{ size:A4; margin:12mm; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="hint">Click any field to fill it in, then print. Empty placeholders won't show when printed.</div>
+    <button onclick="window.print()">Print Report</button>
+  </div>
+
+  <div class="sheet">
+    <div class="watermark">NOT VERIFIED</div>
+
+    <!-- Header -->
+    <div class="head">
+      <div class="brand">
+        <div class="mark">MD</div>
+        <div>
+          <h1>Medical Diagnosis Expert System</h1>
+          <div class="tag">AI-Based Disease Prediction Report</div>
+        </div>
+      </div>
+      <div class="head-right">
+        Report ID: <span class="doc-id" contenteditable="true" data-ph="MDE-000000">MDE-000000</span><br>
+        Generated: <span contenteditable="true" data-ph="DD / MM / YYYY, HH:MM">DD / MM / YYYY, HH:MM</span><br>
+        Model: Random Forest Classifier
+      </div>
+    </div>
+
+    <!-- Disclaimer banner -->
+    <div class="banner">
+      <b>This is not a medical certificate or verified diagnosis.</b> It is an automated prediction generated by a student/academic AI project for demonstration purposes only. It does not replace consultation, examination, or prescription by a licensed physician. Please consult a qualified doctor for actual diagnosis and treatment.
+    </div>
+
+    <!-- Patient meta -->
+    <div class="meta">
+      <div class="field"><span class="lbl">Patient Name</span><span class="val" contenteditable="true" data-ph="—"></span></div>
+      <div class="field"><span class="lbl">Age / Gender</span><span class="val" contenteditable="true" data-ph="—"></span></div>
+      <div class="field"><span class="lbl">Contact</span><span class="val" contenteditable="true" data-ph="—"></span></div>
+      <div class="field"><span class="lbl">Reference No.</span><span class="val" contenteditable="true" data-ph="—"></span></div>
+    </div>
+
+    <!-- Symptoms -->
+    <div class="section-title">Reported Symptoms</div>
+    <div class="symptoms" contenteditable="true" data-ph="List the symptoms entered by the patient, separated by commas..."></div>
+
+    <!-- Predictions -->
+    <div class="section-title">Predicted Conditions</div>
+    <div class="predictions">
+      <div class="pred-card">
+        <div class="pred-rank">Most Likely</div>
+        <div class="pred-name" contenteditable="true" data-ph="Disease Name #1"></div>
+        <div class="confidence-row">
+          <span class="lbl">Confidence</span>
+          <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+          <span class="confidence-val" contenteditable="true" data-ph="—%">78%</span>
+        </div>
+        <div class="precautions-lbl">Suggested Precautions</div>
+        <div class="precautions" contenteditable="true" data-ph="• Precaution one&#10;• Precaution two&#10;• Precaution three"></div>
+      </div>
+
+      <div class="pred-card secondary">
+        <div class="pred-rank">Possible</div>
+        <div class="pred-name" contenteditable="true" data-ph="Disease Name #2"></div>
+        <div class="confidence-row">
+          <span class="lbl">Confidence</span>
+          <div class="bar-track"><div class="bar-fill" style="width:42%; background:#7a8a95;"></div></div>
+          <span class="confidence-val" contenteditable="true" data-ph="—%">42%</span>
+        </div>
+        <div class="precautions-lbl">Suggested Precautions</div>
+        <div class="precautions" contenteditable="true" data-ph="• Precaution one&#10;• Precaution two&#10;• Precaution three"></div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="section-title">Additional Notes</div>
+    <div class="notes" contenteditable="true" data-ph="Any additional remarks about the prediction, model behaviour, or context..."></div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <div class="title">Important</div>
+      Results are generated by a machine learning model trained on a symptom–disease dataset for academic/project purposes. Confidence scores reflect model probability, not clinical certainty. This report carries no medical or legal authority and must not be used in place of professional medical advice, diagnosis, or treatment.
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="foot-left">
+        Medical Diagnosis Expert System — Academic Project<br>
+        Generated automatically · No physician review
+      </div>
+      <div class="sig">
+        <div class="sig-line"></div>
+        <div class="cap">System-Generated · Not a Doctor's Signature</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
