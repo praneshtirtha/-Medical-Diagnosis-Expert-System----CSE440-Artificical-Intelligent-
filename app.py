@@ -267,7 +267,7 @@ st.html("""
 <div class="nav-row">
     <a class="nav-button" href="/about_us" target="_self">About The System</a>
     <a class="nav-button" href="/diagnosis" target="_self">Start Diagnosis</a>
-    <a class="nav-button" href="/diagnosis" target="_self">Skip Intro</a>
+    <a class="nav-button" href="/how_it_works" target="_self">How It Works</a>
 </div>
 
 <div class="footer-note">
